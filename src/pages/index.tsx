@@ -15,6 +15,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({
     "public, max-age=10, stale-while-revalidate=60"
   );
 
+  await new Promise((r) => setTimeout(r, 2000));
+
   const time = new Date();
   const serverTime = `${String(time.getHours()).padStart(2, "0")}:${String(
     time.getMinutes()
@@ -37,7 +39,7 @@ const Page: FC<Props> = ({ serverTime }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <div className={styles.description} id="message">
+        <div className={styles.description}>
           <p>
             This page was created: <strong>{serverTime}</strong>
           </p>
