@@ -9,10 +9,12 @@ type Props = {
 
 export const getServerSideProps: GetServerSideProps<Props> = async ({
   res,
+  query,
 }) => {
+  const noSWR = !!query["no-swr"];
   res.setHeader(
     "Cache-Control",
-    "public, max-age=10, stale-while-revalidate=60"
+    `public, max-age=10, stale-while-revalidate=${noSWR ? 0 : 60}`
   );
 
   await new Promise((r) => setTimeout(r, 2000));
