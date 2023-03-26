@@ -10,8 +10,6 @@ type Props = {
 export const getServerSideProps: GetServerSideProps<Props> = async ({ res }) => {
   res.setHeader('Cache-Control', 'public, max-age=10, stale-while-revalidate=60')
 
-  await new Promise((r) => setTimeout(r, 2000))
-
   return {
     props: {
       now: JSON.stringify(new Date().toISOString())
