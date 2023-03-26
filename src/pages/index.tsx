@@ -1,23 +1,32 @@
-import Head from 'next/head'
-import styles from '@/styles/Home.module.css'
-import {GetServerSideProps} from "next";
-import {FC} from "react";
+import Head from "next/head";
+import styles from "@/styles/Home.module.css";
+import { GetServerSideProps } from "next";
+import { FC } from "react";
 
 type Props = {
-  now: string
-}
+  serverTime: number;
+};
 
-export const getServerSideProps: GetServerSideProps<Props> = async ({ res }) => {
-  res.setHeader('Cache-Control', 'public, max-age=10, stale-while-revalidate=60')
+export const getServerSideProps: GetServerSideProps<Props> = async ({
+  res,
+}) => {
+  res.setHeader(
+    "Cache-Control",
+    "public, max-age=10, stale-while-revalidate=60"
+  );
 
   return {
     props: {
-      now: JSON.stringify(new Date().toISOString())
-    }
-  }
-}
+      serverTime: new Date().getTime(),
+    },
+  };
+};
 
-const Page: FC<Props> = ({ now }) => {
+const Page: FC<Props> = ({ serverTime }) => {
+  const time = new Date(serverTime);
+  const display = `${String(time.getHours()).padStart(2, "0")}:${String(
+    time.getMinutes()
+  ).padStart(2, "0")}:${String(time.getSeconds()).padStart(2, "0")}`;
   return (
     <>
       <Head>
@@ -29,12 +38,12 @@ const Page: FC<Props> = ({ now }) => {
       <main className={styles.main}>
         <div className={styles.description}>
           <p>
-            {now}
+            This page was created: <strong>{display}</strong>
           </p>
         </div>
       </main>
     </>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;
