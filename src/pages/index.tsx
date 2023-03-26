@@ -8,7 +8,7 @@ type Props = {
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async ({ res }) => {
-  res.setHeader('Cache-Control', 'public, max-age=60, stale-while-revalidate=30')
+  res.setHeader('Cache-Control', 'public, max-age=10, stale-while-revalidate=60')
 
   await new Promise((r) => setTimeout(r, 2000))
 
