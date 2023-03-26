@@ -37,7 +37,7 @@ const Page: FC<Props> = ({ serverTime }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <div className={styles.description}>
+        <div className={styles.description} id="message">
           <p>
             This page was created: <strong>{serverTime}</strong>
           </p>
