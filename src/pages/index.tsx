@@ -4,7 +4,7 @@ import { GetServerSideProps } from "next";
 import { FC } from "react";
 
 type Props = {
-  serverTime: number;
+  serverTime: string;
 };
 
 export const getServerSideProps: GetServerSideProps<Props> = async ({
@@ -15,18 +15,19 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({
     "public, max-age=10, stale-while-revalidate=60"
   );
 
+  const time = new Date();
+  const serverTime = `${String(time.getHours()).padStart(2, "0")}:${String(
+    time.getMinutes()
+  ).padStart(2, "0")}:${String(time.getSeconds()).padStart(2, "0")}`;
+
   return {
     props: {
-      serverTime: new Date().getTime(),
+      serverTime: serverTime,
     },
   };
 };
 
 const Page: FC<Props> = ({ serverTime }) => {
-  const time = new Date(serverTime);
-  const display = `${String(time.getHours()).padStart(2, "0")}:${String(
-    time.getMinutes()
-  ).padStart(2, "0")}:${String(time.getSeconds()).padStart(2, "0")}`;
   return (
     <>
       <Head>
@@ -38,7 +39,7 @@ const Page: FC<Props> = ({ serverTime }) => {
       <main className={styles.main}>
         <div className={styles.description}>
           <p>
-            This page was created: <strong>{display}</strong>
+            This page was created: <strong>{serverTime}</strong>
           </p>
         </div>
       </main>
